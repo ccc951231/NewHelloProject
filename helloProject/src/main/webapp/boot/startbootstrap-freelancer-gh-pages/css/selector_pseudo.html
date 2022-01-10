@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/selector_pseudo.html</title>
+    <style>
+        a:link{
+            text-decoration: none; /*링크에 밑줄을 없앤상태*/ 
+        }
+        a:visited{
+            color: green;
+        }
+        a:hover{  /* 마우스가 올라가면 background와 글자 색이 바뀐다.*/
+            color: pink;
+            background-color: royalblue;
+        }
+        a:active{
+            background-color: yellow;
+            color:blue;
+
+        }
+
+        input:focus{
+            background-color: red;
+            color: white;
+        }
+
+        li:first-child{
+            background-color: chocolate;
+        }
+        li:last-child{ /*마지막 자식(first아니면 last 밖에없다 중간은 없다.)*/
+            background-color: coral;
+        }
+
+        li:nth-last-of-type(3){ /*last가 붙으면 뒤에서 부터 순번을 세아린다.*/
+            font-size: 1.3em;
+            background-color: burlywood;
+        }
+
+        li:only-child{
+            background-color:green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>home</h1>
+    <nav class="navi">
+        <ul>
+            <li><a href="#">이용 안내</a></li>
+            <li><a href="#navi">객실 소개</a></li>
+            <h3>손님예약하기</h3>
+            <li><a href="#">예약 방법 및 요금</a></li>
+            <li><a href="#">예약하기</a></li>
+            <input type="text" name="" id="" aria-placeholder="가상선택자">
+        </ul>
+    </nav>
+</div style="height: 800px;"></div>
+    <nav id="navi">
+        <ul>
+            <li>2인실</li>
+            <li>3인실</li>
+            <li>4인실</li>
+            <li>가족실</li>
+        </ul>
+    </nav>
+    <nav>
+        <ul>
+            <li>기타</li>
+            <li>기타2</li>
+        </ul>
+    </nav>
+    <div style="height: 800px;"></div>
+</body>
+</html>

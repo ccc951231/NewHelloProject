@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        * {
+            /* 전체선택자*/
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .content {
+            /*클래스 선택자*/
+        }
+
+        #row {
+            /*아이디 선택자*/
+        }
+
+        h1,
+        p {
+            /* 타입 선택자*/
+        }
+
+        .theme {
+            width: 50%;
+            float: left;
+        }
+
+        .content {
+            width: 50%;
+            float: left;
+        }
+
+        div.theme ul {         /* 손자 선택자는 한칸 공백으로 표현한다.*/
+            margin-left: 10px;
+            list-style-type: square;
+        }
+
+        .content>ul{        /*자식 선택자는 >로 표현한다.*/
+            list-style-type: circle;
+
+        }
+
+        li+ul { /*형제 선택자 표현 +로한다.*/
+            background: burlywood;
+
+        li~ul {  /*리스트 동생중에 ul태그를 다 가져온다.*/
+            color: red;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="theme">
+            <ul>
+                <ul>
+                    <li>Car</li>
+                    <li>Plane</li>
+                </ul>
+                <li>Apple</li>      <!-- 후손 -->
+                <li>Banana</li>
+                <li>Cherry</li>
+                <ul>
+                    <li>Car</li>
+                    <li>Plane</li>
+                </ul>
+            </ul>
+        </div>
+        <div class="container">
+            <ul>
+                <li>Apple</li>
+                <li>Banana</li>
+                <li>Cherry</li>
+
+            </ul>
+        </div>
+</body>
+
+</html>

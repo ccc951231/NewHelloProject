@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css/font.html</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dokdo&family=Nanum+Pen+Script&family=Single+Day&display=swap');
+
+
+        * {
+            font-size: 10px;
+        }
+
+        h1 {
+            font-family: 'Times New Roman', Times, serif;
+            color: rgba(29, 56, 190, 0.185);
+            /*마지막 부분은 불투명도에 대한 값*/
+        }
+
+        p {
+            font-family: 'Single Day', cursive;
+            font-size: 1em;
+            font-weight: bold;
+            font-style: italic;
+            line-height: 1em;
+            text-transform: uppercase;
+            text-decoration: underline;
+            text-shadow: 2px 2px 2px rgb(92, 164, 232);
+            letter-spacing: 3px;
+            word-spacing: 5px;
+
+        }
+
+        div {
+            background-color: yellowgreen;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            /* 위 아래 정렬에 대한 값*/
+        }
+
+        .book1 {
+            list-style-image: url('');
+
+        }
+
+        .book2 {
+            list-style-type: lower-roman;
+        }
+
+        .company {
+           
+      }
+    </style>
+</head>
+
+<body>
+    <h1>레드향</h1>
+    <p>껍질에 붉은 빛이 돌아 레드향이라 불린다.</p>
+    <p>레드향은 한라봉과 귤을 교배한 것으로 일반귤보다 2~3배 크고 과육이 붉고 통통하다.</p>
+    <p>비타민 C와 비타민 P가 풍부해 혈액순환, 감기예방 등에 좋은 것으로 알려져 있다.</p>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit, id iure maxime ut doloribus<br>
+        repellat. Fuga, optio. Maxime repudiandae beatae, eaque itaque accusantium ut perferendis?<br>
+        Sequi sapiente commodi suscipit atque!</p>
+    <div>hello</div>
+    <span class="material-icons-outlined">
+        home
+    </span>
+    <span class="material-icons">
+        home
+    </span>
+    <span class="material-icons-outlined">face</span>
+
+    <span class="Material-icons-outline">
+    </span>
+    <i class="fas fa-cloud"></i>
+
+    <h2>도서시리즈1</h2>
+
+    <ul class="book1">
+        <li>Do it! 시리즈</li>
+        <li>첫 코딩 시리즈</li>
+        <li>된다 시리즈</li>
+    </ul>
+
+    <ol class="book2">
+        <li>Do it! 시리즈</li>
+        <li>첫 코딩 시리즈</li>
+        <li>된다 시리즈</li>
+    </ol>
+
+    <ul class="company">
+        <li>회사소개</li>
+        <li>도서</li>
+        <li>자료실</li>
+        <li>동영상 강의</li>
+    </ul>
+</body>
+
+
+</html>

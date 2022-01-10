@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 공통옵션 */
+        ul li {
+            list-style: none;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .tc {
+            text-align: center;
+        }
+
+        /* 게시판 목록 */
+        .board {
+            width: 950px;
+        }
+
+        .w70 {
+            width: 70px;
+        }
+
+        .w500 {
+            width: 500px;
+        }
+
+        .w120 {
+            width: 120px;
+        }
+
+        .w100 {
+            width: 100px;
+        }
+
+        .title {
+            height: 50px;
+            line-height: 50px;
+            background: skyblue;
+            font-weight: bold;
+        }
+
+        .t_line {
+            border-right: solid 1px gray;
+        }
+
+        .lt_line {
+            border-bottom: solid 1px gray;
+        }
+
+        .list {
+            height: 40px;
+            line-height: 40px;
+            background: #f3f3f3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ul li 리스트 만들기</h1>
+        <!---기본 메뉴--->
+        <ul class="board">
+            <li class="fl tc w70 title t_line">번호</li>
+            <li class="fl tc w500 title t_line">제목</li>
+            <li class="fl tc w120 title t_line">글쓴이</li>
+            <li class="fl tc w100 title t_line">작성일</li>
+            <li class="fl tc w100 title ">조회수</li>
+        </ul>
+        <!--- 리스트 --->
+        <ul class="board">
+            <li class="fl tc w70 list t_line lt_line">2</li>
+            <li class="fl tc w500 list t_line lt_line">제목</li>
+            <li class="fl tc w120 list t_line lt_line">관리자</li>
+            <li class="fl tc w100 list t_line lt_line">2019-02-11</li>
+            <li class="fl tc w100 list  lt_line">1</li>
+        </ul>
+        <ul class="board">
+            <li class="fl tc w70 list t_line lt_line">1</li>
+            <li class="fl tc w500 list t_line lt_line">제목</li>
+            <li class="fl tc w120 list t_line lt_line">관리자</li>
+            <li class="fl tc w100 list t_line lt_line">2019-02-11</li>
+            <li class="fl tc w100 list  lt_line">1</li>
+        </ul>
+  </body>
+  </html>
