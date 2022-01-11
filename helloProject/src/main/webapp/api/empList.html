@@ -2,112 +2,104 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>api/empList.html</title>
-    
-     <style>
-            #add {
-                border: 1px solid grey;
-                width: 60%;
-                float: left;
-                margin: 5px;
-                padding: 10px;
-            }
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>api/empList.html</title>
 
-            .row {
-                margin: 5px 10px;
-            }
+<style>
+#add {
+	border: 1px solid grey;
+	width: 60%;
+	float: left;
+	margin: 5px;
+	padding: 10px;
+}
 
-            .row>label {
-                display: inline-block;
-                width: 15%;
-            }
+.row {
+	margin: 5px 10px;
+}
 
-            .row>input {
-                display: inline-block;
-                width: 75%;
-            }
+.row>label {
+	display: inline-block;
+	width: 15%;
+}
 
-            #btn {
-                /* border: 1px, solid grey; */
-                margin: 5px;
-                float: left;
-                width: 20%;
-                height: 140px;
-            }
+.row>input {
+	display: inline-block;
+	width: 75%;
+}
 
-            #btn>button {
-                margin-top: 20px;
-                width: 100px;
-            }
+#btn {
+	/* border: 1px, solid grey; */
+	margin: 5px;
+	float: left;
+	width: 20%;
+	height: 140px;
+}
 
-            #list {
-                float: left;
-                border: 1px solid grey;
-                width: 93%;
-                height: 300px;
-                margin-left: 5px;
-            }
+#btn>button {
+	margin-top: 20px;
+	width: 100px;
+}
 
-            #list table{
-                width: 95%;
-                margin: 10px auto;
-            }
+#list {
+	float: left;
+	border: 1px solid grey;
+	width: 93%;
+	height: 300px;
+	margin-left: 5px;
+}
 
-            th,
-            td {
-                padding: 3px 5px;
-                text-align: center;
-            }
-	
-			th:nth-child(5){
-				width: 150px;
-				}
-          
-        </style>
-    
+#list table {
+	width: 95%;
+	margin: 10px auto;
+}
+
+th, td {
+	padding: 3px 5px;
+	text-align: center;
+}
+
+th:nth-child(5) {
+	width: 150px;
+}
+</style>
+
 </head>
 
 <body>
 
-    <div id="show">
-     <div id="add">
-        <div class="row">
-            <label for="">사원번호</label>
-            <input type="text" name="eid">
-        </div>
-        <div class="row">
-            <label for="">이름</label>
-            <input type="text" name="fname">
-        </div>
-       <div class="row">
-            <label for="">성씨</label>
-            <input type="text" name="lname">
-        </div>
-        <div class="row">
-            <label for="">입사일자</label>
-            <input type="date" name="hire_date">
-        </div>
-        <div class="row">
-            <label for="">이메일</label>
-            <input type="email" name="email">
-        </div>
-        <div class="row">
-            <label for="">급여</label>
-            <input type="number" name="salary">
-        </div>
-    </div></div>
-    <div id="btn">
-        <button>등록</button>
-        <button>선택 삭제</button>
-    </div>
-     <div id="list"> </div>
-     </div>
-     <script src = "employee.js"></script>
-    
-    <!-- <script>
+	<div id="show">
+		<div id="add">
+			<div class="row">
+				<label for="">사원번호</label> <input type="text" name="eid">
+			</div>
+			<div class="row">
+				<label for="">이름</label> <input type="text" name="fname">
+			</div>
+			<div class="row">
+				<label for="">성씨</label> <input type="text" name="lname">
+			</div>
+			<div class="row">
+				<label for="">입사일자</label> <input type="date" name="hire_date">
+			</div>
+			<div class="row">
+				<label for="">이메일</label> <input type="email" name="email">
+			</div>
+			<div class="row">
+				<label for="">급여</label> <input type="number" name="salary">
+			</div>
+		</div>
+	<div id="btn">
+		<button>등록</button>
+		<button>선택 삭제</button>
+	</div>
+	<div id="list"></div>
+	</div>
+	<script src="employee.js"></script>
+
+	<!-- <script>
 
 
     //Asynchoronous Javascript And Xml (ajax) --비동기 방식으로 데이터를 주고받는다.

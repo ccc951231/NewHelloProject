@@ -155,29 +155,33 @@ let delBtn = document.querySelector('#btn>button:nth-child(2)');
 delBtn.addEventListener('click', delcallBack);
 
 function delcallBack() {
-   let chks = document.querySelectorAll('tbody input[type="checkbox"]'); //체크된 갯수만큼 루틴 돌면서 삭제
+   let chks = document.querySelectorAll('tbody input[type="checkbox"]');
    for (let i = 0; i < chks.length; i++) {
       if (chks[i].checked == true) {
-		console.log(chks[i].parentNode.nextSibling.innerText);
-		let del_id = chks[i].parentNode.nextSibling.innerText;
-		  // ajax 호출. (삭제서블릿 호출 = > 화면에서 삭제.)
-		const xhtp = new XMLHttpRequest();
-		 xhtp.onload = function(){
-		// 서버호출 결과 값을 받아오면 실행하는 부분.
-		console.log(xhtp.responseText); // 가지고온 값이 성공이면 삭제, 아니면 에러가 발생
-		let result = JSON.parse(xhtp.responseText);
-		if (result.retCode == 'Success'){
-			// 화면삭제.
-       	  chks[i].parentNode.parentNode.remove();
-      } else {
-		window.alert(result.retVal);
-	}
-	 xhtp.open('post', '../DeleteEmployeeServlet'); //servlet명은 이해하게 쉽게 임의로 적어도 문제없다.
-	 xhtp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	 xhtp.send('emp_id=${del_id}');
+         console.log(chks[i].parentNode.nextSibling.innerText);
+         let del_id = chks[i].parentNode.nextSibling.innerText;
+         //ajax 호출(삭제 서블릿 호출 => 화면에서 삭제);
+         const xhtp = new XMLHttpRequest();
+         xhtp.onload = function() {
+            //서버호출 결과 값을 받아오면 실행하는 부분
+            console.log(xhtp.responseText);
+            let result = JSON.parse(xhtp.responseText);
+            if (result.retCode == 'Success') {
+               chks[i].parentNode.parentNode.remove();
+            } else {
+               window.alert(result.retVal);
+            }
+         }
+         //화면삭제
+
+         xhtp.open('post', '../DelEmpServlet');
+         xhtp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+         xhtp.send(`emp_id=${del_id}`);
+      }
+
    }
-	}
 }
+
 
 //리스트 ->입력화면에 보여주기 
 
@@ -197,5 +201,4 @@ function showInfo() {
    document.querySelector('input[name="phone"]').value = parent.childNodes[2].innerText;
    document.querySelector('input[name="addr"]').value = parent.childNodes[3].innerText;
    document.querySelector('input[name="email"]').value = parent.childNodes[4].innerText;
-
 }
