@@ -13,6 +13,7 @@ public class DAO {
 	
 
 	public void connect() {
+		//1.드라이버 로딩하기
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 		} catch (ClassNotFoundException e) {
