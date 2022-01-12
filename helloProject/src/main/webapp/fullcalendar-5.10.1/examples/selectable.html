@@ -1,124 +1,126 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset='utf-8' />
 <link href='../lib/main.css' rel='stylesheet' />
 <script src='../lib/main.js'></script>
 <script>
+	var eventData = ''; //값을 넣어주기.
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+	// 아래 부분을 실행
+	document.addEventListener('DOMContentLoaded', function() { //document의 objcet가 페이지 로딩이 모두 실행이 된 후에 코드를 실행
+		console.log(document.getElementById('calendar'));
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      initialDate: '2020-09-12',
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectMirror: true,
-      select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
-        calendar.unselect()
-      },
-      eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
-        }
-      },
-      editable: true,
-      dayMaxEvents: true, // allow "more" link when too many events
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2020-09-01'
-        },
-        {
-          title: 'Long Event',
-          start: '2020-09-07',
-          end: '2020-09-10'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-09-09T16:00:00'
-        },
-        {
-          groupId: 999,
-          title: 'Repeating Event',
-          start: '2020-09-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2020-09-11',
-          end: '2020-09-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-12T10:30:00',
-          end: '2020-09-12T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2020-09-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2020-09-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2020-09-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2020-09-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2020-09-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2020-09-28'
-        }
-      ]
-    });
+		var xhtp = new XMLHttpRequest();
+		xhtp.open('get', '../../ScheduleServlet'); //open후 send를 해야 실제로 호출됨.
+		xhtp.send();
+		xhtp.onload = function() {
+			console.log(xhtp.responseText);
+			eventData = JSON.parse(xhtp.responseText);
+			showCalendar();
+		}
+	});
 
-    calendar.render();
-  });
+	function showCalendar() {
+		var calendarEl = document.getElementById('calendar');
 
+		var calendar = new FullCalendar.Calendar(
+				calendarEl,
+				{
+					headerToolbar : {
+						left : 'prev, next, today', //left : 캘린더 넘길 위치/ 값 사이에 콤마가 붙으면 사이가 떨어지거나 붙는다.
+						center : 'title',
+						right : 'dayGridMonth,timeGridWeek,timeGridDay'
+					},
+					initialDate : '2022-01-12',
+					navLinks : true, // can click day/week names to navigate views
+					selectable : true,
+					selectMirror : true,
+					select : function(arg) { //★
+						var title = prompt('Event Title:'); //칸 하나 하나의 창
+						if (title) {
+							console.log(arg)
+							var regAjax = new XMLHttpRequest();
+							regAjax.open('post', '../../ScheduleServlet');
+							regAjax.setRequestHeader('Content-type',
+									'application/x-www-form-urlencoded');
+							regAjax
+									.send(`action=insert&title=${title}&start=${arg.startStr}&end=${arg.endStr}`); //아래 addEvent된 필드의 값들을 참고하고 {}안으로 넘겨온다.
+							regAjax.onload = function() {
+								var result = JSON.parse(regAjax.responseText);
+
+								if (result.retCode == 'Sucess') { // retCode가 정상적으로 Succes되면
+									// 화면에 추가하는 코드
+									calendar.addEvent({ //★ addEvent 메소드를 호출하면 이벤트를 등록 할 수 있다.
+										title : title,
+										start : arg.start,
+										end : arg.end,
+										allDay : arg.allDay
+									})
+								} else {
+									// 실패일 경우
+									alert('오류가 발생했습니다.');
+								}
+							} // end of onload
+						} // end of if()
+						calendar.unselect()
+					},
+					eventClick : function(arg) { // ★ 등록된 이벤트의 삭제 기능을 한다.
+						console.log(arg.el.innerText);
+						var title = arg.event._def.title;  //event처리로 삭제해야함
+						if (confirm('Are you sure you want to delete this event?')) { //웹에 삭제할건지 묻는다.
+							// 데이터 삭제 처리 
+							var delAjax = new XMLHttpRequest();
+							delAjax.open('post', '../../ScheduleServlet');
+							delAjax.setRequestHeader('Content-type',
+									'application/x-www-form-urlencoded');
+							delAjax.send(`title=${title}&action=delete`);
+							delAjax.onload = function() {
+								var result = JSON.parse(delAjax.responseText);
+
+								if (result.retCode == 'Sucess') { // retCode가 정상적으로 Succes되면
+									// 화면에서 삭제하는 코드
+									// 정상적으로 삭제.
+									arg.event.remove() // 화면삭제에서 삭제, DB에서는 삭제되는데 HTML에서 안지워지면 커밋해보기.
+
+								} else {
+									// 실패일 경우
+									alert('오류가 발생했습니다.');
+									return;
+								}
+							}
+						}
+						calendar.unselect()
+					},
+					editable : true,
+					dayMaxEvents : true, // allow "more" link when too many events
+					events : eventData
+				});
+
+		calendar.render(); // ★calendar.render가 호출되어야 달력이 실행된다.
+
+	}
 </script>
 <style>
+body {
+	margin: 40px 10px;
+	padding: 0;
+	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+	font-size: 14px;
+}
 
-  body {
-    margin: 40px 10px;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
+#calendar {
+	max-width: 1100px;
+	margin: 0 auto;
+}
 </style>
 </head>
+
 <body>
 
-  <div id='calendar'></div>
+	<div id='calendar'></div>
 
 </body>
+
 </html>
