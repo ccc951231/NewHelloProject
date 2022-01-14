@@ -31,7 +31,7 @@
 		// 목록조회 콜백
 		function loadCommentResult(e) {
 			//xhtp.responseText
-			console.log(e);
+			console.log(e.currentTarget.responseText);
 			var result = JSON.parse(e.currentTarget.responseText); //json -> obj
 
 			var commentList = document.getElementById('commentList');
@@ -47,10 +47,15 @@
 		// 한건생성
 		function makeCommentView(comment) { // {id:?, name:?, content:?}
 			var div = document.createElement('div');
-			div.setAttribute('cid', comment.id);
-			div.setAttribute('cname', comment.name);
-			div.setAttribute('ctent', comment.content);
+			// div.setAttribute('id', comment.id);
+			// div.setAttribute('data-name', comment.name);
+			// div.setAttribute('data-content', comment.content);
+
 			div.setAttribute('id', comment.id);
+
+			div.setAttribute('data-id', comment.id);
+			div.setAttribute('data-name', comment.name);
+			div.setAttribute('data-content', comment.content);
 
 			//	var strong = document.createElement('strong');
 			//	var name = document.createTextNode(comment.name); // 수정
@@ -63,23 +68,57 @@
 			//	div.append(strong, text, input);
 
 			var str = '<strong>' + comment.name + '</strong> ' + comment.content +
-				' <input type="button" value="수정" onclick="veiwUpdateForm('+comment.id+')">'
-			div.innerHTML = str;
+				' <input type="button" value="수정" onclick="viewUpdateForm(' + comment.id + ')">'
+				+' <input type="button" value="삭제" onclick="confirmDeletion(' + comment.id + ')">';
+				div.innerHTML = str;
 
 			return div;
 		}
 
 		function viewUpdateForm(id) {
-			var commentDiv = document.getElementById(id)
+			var commentDiv = document.getElementById(id); // div의 id값이 같은 element.
 			var updateFormDiv = document.getElementById('commentUpdate'); // div
-			updateFormDiv.style.display = 'block';
-			
-			document.updateForm.id.value = commentDiv.getAttribute('cid');
-			document.updateForm.name.value = commentDiv.getAttribute('cname');
-			document.updateForm.content.value = commentDiv.getAttribute('ctent');
+			updateFormDiv.style.display = 'block'; // 수정화면 none->block
+
+			//document.updateForm.id.value = commentDiv.getAttribute('cid');
+			//document.updateForm.name.value = commentDiv.getAttribute('cname');
+			//document.updateForm.content.value = commentDiv.getAttribute('ctent');
+
+			document.updateForm.id.value = commentDiv.dataset.id;
+			document.updateForm.name.value = commentDiv.dataset.name;
+			document.updateForm.content.value = commentDiv.dataset.content;
+
+			commentDiv.after(updateFormDiv); // <div></div><span></span>
+			document.getElementById('commentAdd').style.display = 'none'; // 입력화면 숨김
+		}
+
+		function confirmDeletion(id){
+			// 서블릿 -> db삭제 -> 서블릿 -> 화면반영.
+			var delAjax = new XMLHttpRequest();
+			delAjax.open('post', '../commentServ.do?');
+			delAjax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			delAjax.send(`cmd=delete&id=${id}&`);
+			delAjax.onload = deleteResult; // 콜백호출.	
+		}
 		
-			commentDiv.after(updateFormDiv);
-			document.getElemtById('commentAdd').style.display = 'none';
+		// 삭제 콜백.
+		function deleteResult(e){
+			console.log(e);
+			var result = JSON.parse(e.target.responseText)
+			if(result.retCode == 'Success'){
+				// 화면에서 삭제.
+				var commentDiv = document.getElementById(result.retVal); //result가 가지고 있는 returnVal를 가지고옴
+				
+				// commentDiv.remove();
+				//e.target.parentNode.remove();
+				
+				var commentList = document.getElementById('commentList');
+				commentList.removeChild(commentDiv);
+				
+			} else{
+				window.alert('에러 발생');
+				// 에러발생 메세지.
+			}
 		}
 
 		// 글등록 기능.
@@ -123,6 +162,45 @@
 			}
 
 		}
+		// 수정버튼 클릭시.
+		function updateComment() {
+			var id = document.updateForm.id.value;
+			var name = document.updateForm.name.value;
+			var content = document.updateForm.content.value;
+			// 수정하는 서블릿 -> DB반영 -> 서블릿 -> comment.html
+			var updateAjax = new XMLHttpRequest();
+			updateAjax.open('post', '../commentServ.do');
+			updateAjax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			updateAjax.send(`cmd=update&name=${name}&content=${content}&id=${id}`);
+			updateAjax.onload = updateResult; // 업데이트 콜백함수.
+
+			function updateResult() {
+				console.log(updateAjax.responseText)
+				let result = JSON.parse(updateAjax.responseText);
+				// retCode => Success 화면수정, retCode = > Fail 에러가 발생.
+				if (result.retCode == 'Success') {
+					var comment = result.retVal; // retVal는 return Value를 뜻하는데 retVal안에는 {id:?, name:?, content:?}의 값이 들어있다.
+					var commentDiv = makeCommentView(comment);
+					var oldComment = document.getElementById(comment.id);
+					// 변경.
+					document.getElementById('commentList').replaceChild(commentDiv, oldComment); // replaceChild는 oldComment를 새로운 자식 commentDiv로 바꿔준다
+
+					// 화면전환.
+					document.getElementById('commentUpdate').style.display = 'none';
+					document.getElementById('commentAdd').style.display = 'block';
+
+				} else {
+					window.alert('에러발생');
+				}
+
+			}
+		}
+		
+		function cancelUpdate(){
+			//화면전환
+			document.getElementById('commentUpdate').style.display = 'none';
+			document.getElementById('commentAdd').style.display = 'block';
+		}
 	</script>
 </head>
 
@@ -141,13 +219,13 @@
 	</div>
 	<!-- 댓글수정 -->
 	<div id="commentUpdate" style="display: none;">
-	<form action="" method="get" name="updateForm">
-		<input type="hidden" name="id">
-		이름: <input type="text" name="name" size="10"><br>
-		내용: <textarea name="content" cols="20" rows="2"></textarea><br>
-		<input type="button" value="변경" onclick="updateComment()">
-		<input type="button" value="취소" onclick="cancelUpdate()">
-	</form>
+		<form action="" method="get" name="updateForm">
+			<input type="hidden" name="id">
+			이름: <input type="text" name="name" size="10"><br>
+			내용: <textarea name="content" cols="20" rows="2"></textarea><br>
+			<input type="button" value="변경" onclick="updateComment()">
+			<input type="button" value="취소" onclick="cancelUpdate()">
+		</form>
 	</div>
 </body>
 
