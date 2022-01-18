@@ -152,7 +152,6 @@ public class CommentDAO extends DAO {
 				list.add(vo);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			disconnect();
