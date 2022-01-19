@@ -7,27 +7,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.edu.common.Controller;
-import com.edu.common.HttpUtil;
 import com.edu.serviceImpl.BulletinDAO;
 import com.edu.serviceImpl.BulletinService;
 import com.edu.vo.BulletinVO;
 
-public class BulletinSelectController implements Controller {
+public class BulletinUpdateController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String path = "bulletin/bulletin.tiles";
-		
+		// 입력값을 읽어오고 update메소드 호출 결과: 리스트페이지로 이동.
 		String id = req.getParameter("id");
-		System.out.println("id: " + id);
+		String title = req.getParameter("title");
+		String content = req.getParameter("content");
+		
+		BulletinVO vo = new BulletinVO();
+		vo.setBbsId(Integer.parseInt(id));
+		vo.setBbsTitle(title);
+		vo.setBbsContent(content);
 		
 		BulletinService service = new BulletinDAO();
-		BulletinVO vo = service.selectOne(Integer.parseInt(id));
+		service.update(vo);
 		
-		req.setAttribute("bulletin", vo);
-		
-		HttpUtil.forward(req, resp, path);
+		resp.sendRedirect("bulletinList.do");
 	}
 
 }

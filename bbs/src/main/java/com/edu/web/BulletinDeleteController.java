@@ -7,27 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.edu.common.Controller;
-import com.edu.common.HttpUtil;
 import com.edu.serviceImpl.BulletinDAO;
 import com.edu.serviceImpl.BulletinService;
-import com.edu.vo.BulletinVO;
 
-public class BulletinSelectController implements Controller {
+public class BulletinDeleteController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String path = "bulletin/bulletin.tiles";
-		
+		// 입력값을 읽어오기 -> 삭제 -> 리스트.
 		String id = req.getParameter("id");
-		System.out.println("id: " + id);
 		
 		BulletinService service = new BulletinDAO();
-		BulletinVO vo = service.selectOne(Integer.parseInt(id));
+		service.delete(Integer.parseInt(id)); //받아온게 int타입이므로 strint타입으로 변환
 		
-		req.setAttribute("bulletin", vo);
-		
-		HttpUtil.forward(req, resp, path);
+		resp.sendRedirect("bulletinList.do");
+
 	}
 
 }

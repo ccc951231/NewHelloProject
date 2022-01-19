@@ -11,10 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.edu.web.BulletinAddController;
+import com.edu.web.BulletinDeleteController;
 import com.edu.web.BulletinFormController;
 import com.edu.web.BulletinListController;
 import com.edu.web.BulletinSelectController;
+import com.edu.web.BulletinUpdateController;
 import com.edu.web.MainController;
+import com.edu.web.NoticeAddController;
+import com.edu.web.NoticeListController;
+import com.edu.web.noticeFormController;
 
 
 
@@ -33,7 +38,14 @@ public class FrontController extends HttpServlet { //서블릿이 될려면 Http
       map.put("/bulletinForm.do", new BulletinFormController());
       map.put("/bulletinAdd.do", new BulletinAddController());
       map.put("/bulletinSelect.do", new BulletinSelectController());
-      }
+      map.put("/bulletinUpdate.do", new BulletinUpdateController());
+      map.put("/bulletinDelete.do", new BulletinDeleteController());
+      
+      // 공지사항 컨트롤
+      map.put("/noticeList.do", new NoticeListController());
+      map.put("/noticeForm.do", new noticeFormController());
+      map.put("/noticeAdd.do", new NoticeAddController());
+   }
    @Override
    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
       

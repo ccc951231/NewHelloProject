@@ -8,26 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.edu.common.Controller;
 import com.edu.common.HttpUtil;
-import com.edu.serviceImpl.BulletinDAO;
-import com.edu.serviceImpl.BulletinService;
-import com.edu.vo.BulletinVO;
+import com.edu.service.NoticeService;
+import com.edu.serviceImpl.NoticeDAO;
+import com.edu.vo.NoticeVO;
 
-public class BulletinSelectController implements Controller {
+public class NoticeAddController implements Controller {
 
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String path = "bulletin/bulletin.tiles";
+		String path = "noticeList.do"; 
 		
-		String id = req.getParameter("id");
-		System.out.println("id: " + id);
+		NoticeVO vo = new NoticeVO();
+		vo.setNtcTitle(req.getParameter("Title"));
+		vo.setNtcContent(req.getParameter("content"));
+		vo.setNtcWdate(req.getParameter("Wdate"));
 		
-		BulletinService service = new BulletinDAO();
-		BulletinVO vo = service.selectOne(Integer.parseInt(id));
-		
-		req.setAttribute("bulletin", vo);
+		NoticeService service = new NoticeDAO();
+		service.insert(vo);
 		
 		HttpUtil.forward(req, resp, path);
+			
 	}
 
 }

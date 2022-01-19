@@ -59,7 +59,8 @@ public class BulletinDAO  extends DAO implements BulletinService{
 				bulletin.setBbsCreateDate(rs.getString("bbs_create_date"));
 				bulletin.setBbsWriter(rs.getString("bbs_writer"));
 
-			
+			// 카운트 증가.
+				updateCount(bbsId);
 			}
 		} catch (SQLException e) {
 		
@@ -71,6 +72,21 @@ public class BulletinDAO  extends DAO implements BulletinService{
 
 	}
 
+	// 조회수 증가.
+	public void updateCount(int id) {
+		connect();
+		String sql = "update bbs set bbs_hit =  bbs_hit + 1 where bbs_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, id);
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 수정.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+	}
 	@Override
 	public BulletinVO insert(BulletinVO vo) {
 		connect();
@@ -110,14 +126,43 @@ public class BulletinDAO  extends DAO implements BulletinService{
 
 	@Override
 	public BulletinVO update(BulletinVO vo) {
-		
-		return null;
+		connect();
+		String sql = "update bbs set bbs_title=?, bbs_content=?, bbs_image=nvl(?, bbs_image) where bbs_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getBbsTitle());
+			psmt.setString(2,  vo.getBbsContent());
+			psmt.setString(3, vo.getBbsImage());
+			psmt.setInt(4, vo.getBbsId());
+			
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건변경.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return vo;
 	}
 
 	@Override
 	public int delete(int bbsId) {
-	
-		return 0;
+		connect();
+		String sql = "delete from bbs where bbs_id=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, bbsId); //파라미터 지정
+			
+			int r =psmt.executeUpdate();
+			System.out.println(r + "삭제됨.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return bbsId;
 	}
 
 	
